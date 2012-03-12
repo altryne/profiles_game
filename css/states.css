@@ -1,0 +1,7 @@
+body[data-state="connected"] #login{
+    display: none;
+}
+
+body[data-state="connected"] #game{
+    display: block;
+}
