@@ -100,6 +100,42 @@ td { vertical-align: top; }
 }
 
 
+.name {
+	-moz-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52) );
+	background:-moz-linear-gradient( center top, #b8e356 5%, #a5cc52 100% );
+	background:-webkit-linear-gradient( center top, #b8e356 5%, #a5cc52 100% );
+	background-color:#b8e356;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #83c41a;
+	display:inline-block;
+	color:rgba(0.0.0.6);
+	font-family:arial;
+	font-size:24px;
+	font-weight:bold;
+	padding:6px 10px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #86ae47;
+    cursor: pointer;
+    width:220px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}.name:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #a5cc52), color-stop(1, #b8e356) );
+	background:-moz-linear-gradient( center top, #a5cc52 5%, #b8e356 100% );
+	background:-webkit-linear-gradient( center top, #a5cc52 5%, #b8e356 100% );
+	background-color:#a5cc52;
+}.name:active {
+	position:relative;
+	top:1px;
+}
+
 
 
 

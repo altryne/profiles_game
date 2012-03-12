@@ -2,8 +2,6 @@
 
 */
 
-
-
 var game_of_profiles  = gop = {
     storage : {},
     friends_hash : {},
@@ -174,7 +172,7 @@ gop.ui = {
         var friend_id = gop.friends_hash[gop.ui.active_pic];
         var friends = gop.data.randomFriends(3,friend_id);
         friends.push(friend_id);
-
+        friends.shuffle();
         var tmpl = $('<div class="name"></div>');
         for (var i = 0; i < friends.length; i++) {
             var friend = friends[i];
