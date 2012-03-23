@@ -11,6 +11,16 @@ var game_of_profiles  = gop = {
 //        FB.getLoginStatus(function(response){
 //            $.publish('fb/status',response);
 //        });
+        var box_height = box_width = 80;
+        var box_count = Math.floor( ($(window).height() / box_height) * ($(window).width() / box_width));
+
+        gop.friends_count = box_count;
+        var tmpl = $('<div class="bg_pic"></div>');
+        var tmpl_cont = $('<div id="bg_pics"></div>');
+        for (var i = 0; i < box_count; i++) {
+            tmpl_cont.append(tmpl.clone());
+        }
+        $('#game').append(tmpl_cont);
         gop.bindEvents();
     },
     bindEvents : function(){
@@ -31,9 +41,9 @@ var game_of_profiles  = gop = {
         });
 
 
-        $('#game').on('click',function(){
+        $('#start').on('click',function(){
             gop.ui.showOnePic();
-            $('#game').off('click');
+            $('#start').off('click');
         });
 
         $('#stage').on('click', '.name' ,function(){
@@ -62,16 +72,16 @@ gop.data = {
 //        });
 
         FB.api(
-                {
-                    method:'fql.query',
-                    query: 'SELECT uid, name, sex FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
-                },
-                function (data) {
-                    $.each(data,function(i,item){
-                        gop.data.friends[item.uid] = item;
-                    });
-                    $.publish('fb/fetched_friends');
-                }
+            {
+                method:'fql.query',
+                query:'SELECT uid, name, sex FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
+            },
+            function (data) {
+                $.each(data, function (i, item) {
+                    gop.data.friends[item.uid] = item;
+                });
+                $.publish('fb/fetched_friends');
+            }
         );
     },
     getPics : function(e,data){
@@ -81,7 +91,7 @@ gop.data = {
             var friend = keys[Math.floor(Math.random() * keys.length)];
             random_friends.push(gop.data.friends[friend].uid);
         }
-
+        var $bg_pics = $('.bg_pic');
         FB.api(
                 {
                     method:'fql.query',
@@ -93,6 +103,7 @@ gop.data = {
                         var guid = guidGenerator();
                         gop.friends_hash[guid] = item.id;
                         var $tmpl = $('<div class="prof_pic"><img src="" alt=""></div>');
+
                         $tmpl.find('img').attr(
                                 {'src':this.pic_crop.uri,
                                  'id': guid,
@@ -103,8 +114,14 @@ gop.data = {
                                  'data-right':this.pic_crop.right
                                 });
 
-                        $tmpl.find('img').on('load',function(){
-                           $.publish('fb/pic_loaded')
+                        $tmpl.find('img').on('load',function() {
+                            $.publish('fb/pic_loaded');
+                            $cur_pic = $bg_pics.eq(i);
+                            $cur_pic.css('background-image', 'url(' + item.pic_crop.uri + ')');
+                            window.setTimeout(function () {
+                                $bg_pics.eq(i).addClass('loaded')
+                            }, Math.floor(Math.random() * 1500) + 20);
+
                         });
                         $("#pics").append($tmpl);
                     })
